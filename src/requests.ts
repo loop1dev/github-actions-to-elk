@@ -61,6 +61,7 @@ export function createElasticInstance(
         auth: {
           username: elasticUser,
           password: elasticPassword
+        }
       })
     : new Client({
         node: elasticUrl,
