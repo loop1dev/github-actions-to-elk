@@ -18,6 +18,8 @@ async function run(): Promise<void> {
     const elasticApiKey: string = loadInput('elasticApiKey')
     const elasticHost: string = loadInput('elasticHost')
     const elasticIndex: string = loadInput('elasticIndex')
+    const elasticUser: string = loadInput('elasticUser')
+    const elasticPassword: string = loadInput('elasticPassword')
     const elasticCloudId: string = loadInput('elasticCloudId')
     const elasticCloudUser: string = loadInput('elasticCloudUser')
     const elasticCloudPassword: string = loadInput('elasticCloudPassword')
@@ -29,6 +31,8 @@ async function run(): Promise<void> {
       elasticHost,
       elasticApiKeyId,
       elasticApiKey,
+      elasticUser,
+      elasticPassword,
       elasticCloudId,
       elasticCloudUser,
       elasticCloudPassword
