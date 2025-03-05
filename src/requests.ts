@@ -31,8 +31,10 @@ export async function sendMessagesToElastic(
 ): Promise<void> {
   try {
     core.debug(`Push to elasticIndex`)
-    client.index({body: messages, index: elasticIndex})
+    await client.index({body: messages, index: elasticIndex})
+    core.debug(`Successfully pushed to elasticIndex`)
   } catch (e) {
+    core.error(`Failed to send to Elastic: ${e}`)
     throw new Error(`Cannot send request to Elastic : ${e}`)
   }
 }
@@ -58,9 +60,9 @@ export function createElasticInstance(
   return !elasticCloudId
     ? new Client({
         node: elasticHost,
-        auth: {
-          username: elasticUser,
-          password: elasticPassword
+        apiKey: {
+          id: elasticApiKeyId,
+          api_key: elasticApiKey
         }
       })
     : new Client({
