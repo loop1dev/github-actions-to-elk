@@ -49,6 +49,8 @@ export function createElasticInstance(
   elasticUrl: string,
   elasticApiKeyId: string,
   elasticApiKey: string,
+  elasticUser: string,
+  elasticPassword: string,
   elasticCloudId: string,
   elasticCloudUser: string,
   elasticCloudPassword: string
@@ -56,7 +58,9 @@ export function createElasticInstance(
   return !elasticCloudId
     ? new Client({
         node: elasticUrl,
-        auth: apiKey: elasticApiKey
+        auth: {
+          username: elasticUser,
+          password: elasticPassword
       })
     : new Client({
         node: elasticUrl,
