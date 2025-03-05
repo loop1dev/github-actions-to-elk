@@ -26,6 +26,12 @@ inputs:
   elasticHost:
     required: true
     description: "The elastic host"
+  elasticUser:
+    required: false
+    description: "The elastic index"
+  elasticPassword:
+    required: false
+    description: "The elastic index"
   elasticIndex:
     required: true
     description: "The elastic index"
