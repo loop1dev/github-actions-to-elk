@@ -58,10 +58,10 @@ async function run(): Promise<void> {
           logs: await sendRequestToGithub(
             githubInstance,
             `/repos/${githubOrg}/${githubRepository}/actions/jobs/${job.id}/logs`
-          )
+          )  
         }
+        await sendMessagesToElastic(elasticInstance, achievedJob, elasticIndex)
       }
-      await sendMessagesToElastic(elasticInstance, achievedJob, elasticIndex)
     }
   } catch (e) {
     if (e instanceof Error) {
