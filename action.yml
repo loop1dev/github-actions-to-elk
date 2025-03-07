@@ -1,6 +1,6 @@
 name: 'Github Logs to Elastic'
 description: 'Send Github Action logs to Elastic'
-author: 'KnutFr'
+author: 'loop1dev'
 branding:
   icon: database
   color: red
