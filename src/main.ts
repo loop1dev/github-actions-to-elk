@@ -46,7 +46,7 @@ async function run(): Promise<void> {
     const jobs = await sendRequestToGithub(githubInstance, jobsUrl)
     for (const job of jobs.jobs) {
       core.info(`Parsing Job '${job.name}'`)
-      if (job.name.match(/.*elastic.*")) {
+      if (job.name.match("elastic")) {
         core.info('Skipping this job')
         continue;
       }
