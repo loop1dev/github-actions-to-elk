@@ -59,10 +59,11 @@ async function run(): Promise<void> {
         steps: job.steps,
         details: job,
         logs: await sendRequestToGithub(
-           githubInstance,
+          githubInstance,
           `/repos/${githubOrg}/${githubRepository}/actions/jobs/${job.id}/logs`
         )
-      core.info(`getting job '${achievedJob.name}'`)
+      }
+      core.info(`Getting job '${achievedJob.name}'`)
       await sendMessagesToElastic(elasticInstance, achievedJob, elasticIndex)
     }
   } catch (e) {
@@ -72,4 +73,5 @@ async function run(): Promise<void> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-floating-prom
 run()
