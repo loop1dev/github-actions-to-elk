@@ -55,7 +55,7 @@ export async function sendMessagesToElastic(
 export async function createAxiosGithubInstance(token: string): AxiosInstance {
   return Axios.create({
     baseURL: 'https://api.github.com',
-    timeout: 3000,
+    timeout: 10000,
     headers: {Authorization: `token ${token}`}
   })
 }
