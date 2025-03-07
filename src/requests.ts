@@ -2,14 +2,27 @@ import * as core from '@actions/core'
 import Axios, {AxiosInstance} from 'axios'
 import {Client} from '@elastic/elasticsearch'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function sendRequestToGithub(client: AxiosInstance, path: string) {
   try {
     const response = await client.get(path)
     core.debug(response.data)
     return response.data
   } catch (e) {
-    throw new Error(`Cannot send request to Github : ${e}`)
+    if (e.response) {
+      // Check if the status is 404
+      if (e.response.status === 404) {
+        // Check for rate limiting headers
+        if (e.response.headers['x-ratelimit-remaining'] === '0') {
+          throw new Error('Rate limit exceeded')
+        } else {
+          throw new Error('Resource not found')
+        }
+      } else {
+        throw new Error(`Error: ${e.response.status} - ${e.response.statusText}`)
+      }
+    } else {
+      throw new Error(`Cannot send request to Github : ${e.message}`)
+    }
   }
 }
 
