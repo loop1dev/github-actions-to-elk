@@ -2,26 +2,31 @@ import * as core from '@actions/core'
 import Axios, {AxiosInstance} from 'axios'
 import {Client} from '@elastic/elasticsearch'
 
-export async function sendRequestToGithub(client: AxiosInstance, path: string) {
-  try {
-    const response = await client.get(path)
-    core.debug(response.data)
-    return response.data
-  } catch (e) {
-    if (e.response) {
-      // Check if the status is 404
-      if (e.response.status === 404) {
-        // Check for rate limiting headers
-        if (e.response.headers['x-ratelimit-remaining'] === '0') {
-          throw new Error('Rate limit exceeded')
-        } else {
-          throw new Error('Resource not found')
-        }
-      } else {
-        throw new Error(`Error: ${e.response.status} - ${e.response.statusText}`)
+export async function sendRequestToGithub(
+  client: AxiosInstance,
+  path: string,
+  retries = 10,
+  initialDelay = 2000,
+  maxDelay = 30000
+) {
+  let delay = initialDelay;
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const response = await client.get(path)
+      core.debug(response.data)
+      return response.data
+    } catch (e) {
+      const error = e as AxiosError;
+
+      if (attempt === retries || (error.response && error.response.status !== 404 && error.response.status !== 429 && error.response.status < 500)) {
+        throw new Error(`Cannot send request to Github after ${retries} attempts: ${e}`)
       }
-    } else {
-      throw new Error(`Cannot send request to Github : ${e.message}`)
+
+      core.warning(
+        `Attempt ${attempt} failed: ${e}. Retrying in ${delay}ms...`
+      )
+      await new Promise(resolve => setTimeout(resolve, delay))
+      delay = Math.min(delay * 2, maxDelay); // Exponential backoff with a cap
     }
   }
 }
