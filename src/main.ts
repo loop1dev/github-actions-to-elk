@@ -8,6 +8,12 @@ import {
 } from './requests'
 import {loadInput} from './tool'
 
+function validateInput(input: string, inputName: string): void {
+  if (!input) {
+    throw new Error(`Missing required input: ${inputName}`)
+  }
+}
+
 async function run(): Promise<void> {
   try {
     const githubToken: string = loadInput('githubToken')
@@ -23,6 +29,20 @@ async function run(): Promise<void> {
     const elasticCloudId: string = loadInput('elasticCloudId')
     const elasticCloudUser: string = loadInput('elasticCloudUser')
     const elasticCloudPassword: string = loadInput('elasticCloudPassword')
+
+    validateInput(githubToken, 'githubToken')
+    validateInput(githubOrg, 'githubOrg')
+    validateInput(githubRepository, 'githubRepository')
+    validateInput(githubRunId, 'githubRunId')
+    validateInput(elasticApiKeyId, 'elasticApiKeyId')
+    validateInput(elasticApiKey, 'elasticApiKey')
+    validateInput(elasticHost, 'elasticHost')
+    validateInput(elasticIndex, 'elasticIndex')
+    validateInput(elasticUser, 'elasticUser')
+    validateInput(elasticPassword, 'elasticPassword')
+    validateInput(elasticCloudId, 'elasticCloudId')
+    validateInput(elasticCloudUser, 'elasticCloudUser')
+    validateInput(elasticCloudPassword, 'elasticCloudPassword')
 
     core.info(`Initializing Github Connection Instance`)
     const githubInstance = createAxiosGithubInstance(githubToken)

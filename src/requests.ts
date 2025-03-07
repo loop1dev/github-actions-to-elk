@@ -18,9 +18,10 @@ export async function sendRequestToGithub(
     } catch (e) {
       const error = e as AxiosError;
 
-     // if (attempt === retries || (error.response && error.response.status !== 404 && error.response.status !== 429 && error.response.status < 500)) {
-     //   throw new Error(`Cannot send request to Github after ${retries} attempts: ${e}`)
-     // }
+      if (attempt === retries || (error.response && error.response.status
+        !== 404 && error.response.status !== 429 && error.response.status < 500)) {
+        throw new Error(`Cannot send request to Github after ${retries} attempts: ${e}`)
+      }
 
       core.warning(
         `Attempt ${attempt} failed: ${e}. Retrying in ${delay}ms...`
@@ -57,7 +58,7 @@ export async function sendMessagesToElastic(
   }
 }
 
-export async function createAxiosGithubInstance(token: string): AxiosInstance {
+export async function createAxiosGithubInstance(token: string): Promise<AxiosInstance> {
   return Axios.create({
     baseURL: 'https://api.github.com',
     timeout: 10000,
