@@ -46,7 +46,7 @@ async function run(): Promise<void> {
     const jobs = await sendRequestToGithub(githubInstance, jobsUrl)
     for (const job of jobs.jobs) {
       core.info(`Parsing Job '${job.name}'`)
-      if (job.name != 'send-logs-to-elastic')
+      if (job.name != 'send-logs-to-elastic') {
         const achievedJob: ElasticMessageFormat = {
           id: job.id,
           name: job.name,
@@ -60,6 +60,7 @@ async function run(): Promise<void> {
             `/repos/${githubOrg}/${githubRepository}/actions/jobs/${job.id}/logs`
           )
         }
+      }
       await sendMessagesToElastic(elasticInstance, achievedJob, elasticIndex)
     }
   } catch (e) {
