@@ -46,7 +46,7 @@ async function run(): Promise<void> {
     const jobs = await sendRequestToGithub(githubInstance, jobsUrl)
     for (const job of jobs.jobs) {
       core.info(`Parsing Job '${job.name}'`)
-      if (job.name.match("elastic")) {
+      if (/elastic/.test(job.name)) {
         core.info('Skipping this job')
         continue;
       }
@@ -61,7 +61,8 @@ async function run(): Promise<void> {
         logs: await sendRequestToGithub(
            githubInstance,
           `/repos/${githubOrg}/${githubRepository}/actions/jobs/${job.id}/logs`
-        ) 
+        )
+      core.info(`getting job '${achievedJob.name}'`)
       await sendMessagesToElastic(elasticInstance, achievedJob, elasticIndex)
     }
   } catch (e) {
