@@ -42,11 +42,11 @@ async function run(): Promise<void> {
     core.info(`Retrieving metadata from Github Pipeline ${githubRunId}`)
     const metadata = await sendRequestToGithub(githubInstance, metadataUrl)
     const jobsUrl = metadata.jobs_url
-    core.info(`Retrieving jobs list  from Github Pipeline ${githubRunId}`)
+    core.info(`Retrieving jobs list from Github Pipeline ${githubRunId}`)
     const jobs = await sendRequestToGithub(githubInstance, jobsUrl)
     for (const job of jobs.jobs) {
       core.info(`Parsing Job '${job.name}'`)
-      if (job.name != 'send-logs-to-elastic') {
+      if (job.name !== 'send-logs-to-elastic') {
         const achievedJob: ElasticMessageFormat = {
           id: job.id,
           name: job.name,
@@ -61,7 +61,9 @@ async function run(): Promise<void> {
           )  
         }
         await sendMessagesToElastic(elasticInstance, achievedJob, elasticIndex)
-      }
+      } else {
+        core.info('Skipping send-logs-to-elastic job')
+        }
     }
   } catch (e) {
     if (e instanceof Error) {
