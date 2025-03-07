@@ -45,7 +45,7 @@ async function run(): Promise<void> {
     core.info(`Retrieving jobs list from Github Pipeline ${githubRunId}`)
     const jobs = await sendRequestToGithub(githubInstance, jobsUrl)
     for (const job of jobs.jobs) {
-      core.info(`Parsing Job '${job.name}'`)
+      core.info(`Parsing Job... '${job.name}'`)
       if (/elastic/.test(job.name)) {
         core.info('Skipping this job')
         continue;
