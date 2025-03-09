@@ -79,8 +79,6 @@ function run() {
             validateInput(elasticApiKey, 'elasticApiKey');
             validateInput(elasticHost, 'elasticHost');
             validateInput(elasticIndex, 'elasticIndex');
-            validateInput(elasticUser, 'elasticUser');
-            validateInput(elasticPassword, 'elasticPassword');
             validateInput(elasticCloudId, 'elasticCloudId');
             validateInput(elasticCloudUser, 'elasticCloudUser');
             validateInput(elasticCloudPassword, 'elasticCloudPassword');
