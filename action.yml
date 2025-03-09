@@ -21,7 +21,7 @@ inputs:
     required: false
     description: "Elastic api key id"
   elasticApiKey:
-    required: false
+    required: true
     description: "Elastic api key"
   elasticHost:
     required: true
