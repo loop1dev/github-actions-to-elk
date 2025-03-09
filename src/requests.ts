@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import Axios, {AxiosInstance} from 'axios'
+import Axios, {AxiosInstance, AxiosError} from 'axios'
 import {Client} from '@elastic/elasticsearch'
 
 export async function sendRequestToGithub(
@@ -58,7 +58,7 @@ export async function sendMessagesToElastic(
   }
 }
 
-export async function createAxiosGithubInstance(token: string): Promise<AxiosInstance> {
+export function createAxiosGithubInstance(token: string): AxiosInstance {
   return Axios.create({
     baseURL: 'https://api.github.com',
     timeout: 10000,
@@ -79,9 +79,11 @@ export function createElasticInstance(
   return !elasticCloudId
     ? new Client({
         node: elasticHost,
-        apiKey: {
+        auth: {
+          apiKey: {
           id: elasticApiKeyId,
           api_key: elasticApiKey
+          }
         }
       })
     : new Client({
