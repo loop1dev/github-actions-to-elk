@@ -37,10 +37,6 @@ async function run(): Promise<void> {
     validateInput(elasticApiKeyId, 'elasticApiKeyId')
     validateInput(elasticApiKey, 'elasticApiKey')
     validateInput(elasticHost, 'elasticHost')
-    validateInput(elasticIndex, 'elasticIndex')
-    validateInput(elasticCloudId, 'elasticCloudId')
-    validateInput(elasticCloudUser, 'elasticCloudUser')
-    validateInput(elasticCloudPassword, 'elasticCloudPassword')
 
     core.info(`Initializing Github Connection Instance`)
     const githubInstance = await createAxiosGithubInstance(githubToken)

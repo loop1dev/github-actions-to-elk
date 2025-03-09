@@ -78,10 +78,6 @@ function run() {
             validateInput(elasticApiKeyId, 'elasticApiKeyId');
             validateInput(elasticApiKey, 'elasticApiKey');
             validateInput(elasticHost, 'elasticHost');
-            validateInput(elasticIndex, 'elasticIndex');
-            validateInput(elasticCloudId, 'elasticCloudId');
-            validateInput(elasticCloudUser, 'elasticCloudUser');
-            validateInput(elasticCloudPassword, 'elasticCloudPassword');
             core.info(`Initializing Github Connection Instance`);
             const githubInstance = yield (0, requests_1.createAxiosGithubInstance)(githubToken);
             core.info(`Initializing Elastic Instance`);
